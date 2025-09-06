@@ -521,23 +521,52 @@
         window.onload = function() {
             calculateRisk();
             
+            // Initialize GitHub Pages optimizations
+            initGitHubPages();
+            
             // Track page load (add your analytics code here)
             if (typeof gtag !== 'undefined') {
                 gtag('event', 'page_view', {
                     page_title: 'Grid Risk Calculator',
-                    page_location: window.location.href
+                    page_location: window.location.href,
+                    custom_map: {'dimension1': 'github_pages'}
                 });
             }
         };
+        
+        // GitHub Pages specific optimizations
+        function initGitHubPages() {
+            // Update GitHub link with actual username if available
+            const githubLinks = document.querySelectorAll('a[href*="github.com/yourusername"]');
+            githubLinks.forEach(link => {
+                // Auto-detect GitHub username from URL if possible
+                const currentUrl = window.location.href;
+                const githubMatch = currentUrl.match(/https:\/\/([^.]+)\.github\.io/);
+                if (githubMatch) {
+                    const username = githubMatch[1];
+                    link.href = link.href.replace('yourusername', username);
+                }
+            });
+            
+            // Add GitHub Pages performance optimization
+            if ('serviceWorker' in navigator) {
+                // Optional: Add service worker for better caching
+                console.log('Service worker supported - can be added for caching');
+            }
+        }
         
         // Add analytics tracking for calculations
         function trackCalculation() {
             if (typeof gtag !== 'undefined') {
                 gtag('event', 'calculate_risk', {
                     event_category: 'calculator',
-                    event_label: 'risk_calculation'
+                    event_label: 'risk_calculation',
+                    custom_map: {'dimension2': 'github_pages_user'}
                 });
             }
+            
+            // Track usage for GitHub insights (client-side only)
+            console.log('Calculation performed at:', new Date().toISOString());
         }
         
         // Update calculate function to include tracking
@@ -546,16 +575,34 @@
             originalCalculateRisk();
             trackCalculation();
         };
+        
+        // GitHub Pages specific error handling
+        window.addEventListener('error', function(e) {
+            console.warn('GitHub Pages deployment - Error logged:', e.message);
+            // Optionally track errors if analytics is set up
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'exception', {
+                    description: e.message,
+                    fatal: false
+                });
+            }
+        });
     </script>
     
-    <!-- Google Analytics (replace GA_MEASUREMENT_ID with your actual ID) -->
+    <!-- Google Analytics for GitHub Pages (replace YOUR_GA_ID with actual ID) -->
+    <!-- Uncomment and replace YOUR_GA_ID when you set up analytics -->
     <!-- 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=YOUR_GA_ID"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-        gtag('config', 'GA_MEASUREMENT_ID');
+        gtag('config', 'YOUR_GA_ID', {
+            // GitHub Pages specific configuration
+            page_title: 'Grid Risk Calculator',
+            page_location: window.location.href,
+            custom_map: {'dimension1': 'github_pages'}
+        });
     </script>
     -->
     </script>
