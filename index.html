@@ -3,7 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dynamic Grid Risk Calculator</title>
+    <title>Dynamic Grid Risk Calculator - Multi-Asset Trading Tool</title>
+    <meta name="description" content="Professional risk calculator for dynamic grid trading systems. Supports forex, crypto, commodities, metals, and indices with real-time calculations.">
+    <meta name="keywords" content="grid trading, forex calculator, crypto trading, risk management, MT5, trading system, forex tools, bitcoin, ethereum, gold, oil, indices">
+    <meta name="author" content="Grid Trading Tools">
+    <link rel="canonical" href="https://yourusername.github.io/grid-risk-calculator/">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Dynamic Grid Risk Calculator - Multi-Asset">
+    <meta property="og:description" content="Professional tool for calculating optimal grid trading parameters across forex, crypto, commodities, and indices">
+    <meta property="og:url" content="https://yourusername.github.io/grid-risk-calculator/">
+    <meta property="og:site_name" content="Grid Trading Tools">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="Dynamic Grid Risk Calculator">
+    <meta property="twitter:description" content="Professional multi-asset grid trading risk calculator">
+    
+    <!-- GitHub Pages Optimization -->
+    <meta name="generator" content="GitHub Pages">
+    <meta name="robots" content="index, follow">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
+    
     <style>
         * {
             margin: 0;
@@ -42,6 +64,12 @@
         .header p {
             font-size: 1.1em;
             opacity: 0.9;
+        }
+        
+        .header .instruments {
+            margin-top: 15px;
+            font-size: 0.9em;
+            opacity: 0.8;
         }
         
         .content {
@@ -202,6 +230,43 @@
             margin-left: 20px;
         }
         
+        .instrument-info {
+            background: #e3f2fd;
+            border: 1px solid #bbdefb;
+            border-radius: 6px;
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #1565c0;
+        }
+        
+        .crypto-warning {
+            background: #ffebee;
+            border: 1px solid #ffcdd2;
+            color: #c62828;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 10px;
+            font-size: 0.9em;
+            color: #6c757d;
+            border-left: 4px solid #3498db;
+        }
+        
+        .footer a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        
         @media (max-width: 768px) {
             .content {
                 grid-template-columns: 1fr;
@@ -215,6 +280,10 @@
             .input-row {
                 grid-template-columns: 1fr;
             }
+            
+            .header h1 {
+                font-size: 2em;
+            }
         }
     </style>
 </head>
@@ -222,7 +291,10 @@
     <div class="container">
         <div class="header">
             <h1>🎯 Dynamic Grid Risk Calculator</h1>
-            <p>Calculate optimal parameters for your adaptive grid trading system</p>
+            <p>Professional multi-asset grid trading system optimizer</p>
+            <div class="instruments">
+                💱 Forex • ₿ Crypto • 🥇 Metals • 🛢️ Commodities • 📈 Indices
+            </div>
         </div>
         
         <div class="content">
@@ -241,17 +313,34 @@
                 
                 <div class="input-row">
                     <div class="input-group">
-                        <label for="currencyPair">Currency Pair</label>
-                        <select id="currencyPair">
-                            <option value="EURUSD">EUR/USD</option>
-                            <option value="GBPUSD">GBP/USD</option>
-                            <option value="USDJPY">USD/JPY</option>
-                            <option value="AUDUSD">AUD/USD</option>
-                            <option value="USDCAD">USD/CAD</option>
-                            <option value="USDCHF">USD/CHF</option>
-                            <option value="NZDUSD">NZD/USD</option>
-                            <option value="EURJPY">EUR/JPY</option>
-                            <option value="GBPJPY">GBP/JPY</option>
+                        <label for="tradingInstrument">Trading Instrument</label>
+                        <select id="tradingInstrument">
+                            <optgroup label="🏛️ Major Forex Pairs">
+                                <option value="EURUSD">EUR/USD</option>
+                                <option value="GBPUSD">GBP/USD</option>
+                                <option value="USDJPY">USD/JPY</option>
+                                <option value="AUDUSD">AUD/USD</option>
+                                <option value="USDCAD">USD/CAD</option>
+                                <option value="USDCHF">USD/CHF</option>
+                                <option value="NZDUSD">NZD/USD</option>
+                            </optgroup>
+                            <optgroup label="💱 Cross Pairs">
+                                <option value="EURJPY">EUR/JPY</option>
+                                <option value="GBPJPY">GBP/JPY</option>
+                            </optgroup>
+                            <optgroup label="₿ Cryptocurrencies">
+                                <option value="BTCUSD">BTC/USD (Bitcoin)</option>
+                                <option value="ETHUSD">ETH/USD (Ethereum)</option>
+                            </optgroup>
+                            <optgroup label="🥇 Precious Metals">
+                                <option value="XAUUSD">XAU/USD (Gold)</option>
+                            </optgroup>
+                            <optgroup label="🛢️ Commodities">
+                                <option value="USOIL">US Oil (WTI Crude)</option>
+                            </optgroup>
+                            <optgroup label="📈 Indices">
+                                <option value="US30">US30 (Dow Jones)</option>
+                            </optgroup>
                         </select>
                     </div>
                     
@@ -265,6 +354,10 @@
                             <option value="500">1:500</option>
                         </select>
                     </div>
+                </div>
+                
+                <div id="instrumentInfo" class="instrument-info">
+                    Select an instrument to see specific information and recommendations.
                 </div>
                 
                 <h2 class="section-title">⚙️ Grid Configuration</h2>
@@ -286,8 +379,8 @@
                 </div>
                 
                 <div class="input-group">
-                    <label for="avgDailyRange">Average Daily Range (pips)</label>
-                    <input type="number" id="avgDailyRange" value="100" min="50" max="300" step="10">
+                    <label for="avgDailyRange">Average Daily Range (pips/points)</label>
+                    <input type="number" id="avgDailyRange" value="100" min="50" max="3000" step="10">
                 </div>
                 
                 <div class="input-group">
@@ -375,60 +468,233 @@
                 
                 <div class="warning-box">
                     <h4>⚠️ Important Risk Warnings:</h4>
-                    <ul>
+                    <ul id="riskWarnings">
                         <li>Grid trading can result in significant losses during strong trending markets</li>
-                        <li><strong>Crypto trading is EXTREMELY volatile</strong> - Use smaller position sizes and wider grids</li>
-                        <li><strong>Gold, Oil, and Indices</strong> can have sudden price gaps during news events</li>
                         <li>Never risk more than you can afford to lose</li>
                         <li>Test thoroughly on demo accounts before live trading</li>
-                        <li>Consider market volatility and news events, especially for non-forex instruments</li>
+                        <li>Consider market volatility and news events</li>
                         <li>Monitor margin levels closely to avoid margin calls</li>
-                        <li><strong>Weekend gaps</strong> are common in crypto and commodities</li>
                     </ul>
+                </div>
+                
+                <div class="footer">
+                    <p><strong>🛠️ Dynamic Grid Risk Calculator v2.0</strong></p>
+                    <p>Multi-asset professional trading tool | Open source on GitHub</p>
+                    <p style="margin: 15px 0;">
+                        <a href="https://github.com/yourusername/grid-risk-calculator" target="_blank">
+                            📁 View Source Code on GitHub
+                        </a>
+                    </p>
+                    <p style="font-size: 0.85em; color: #868e96;">
+                        Last Updated: September 2025 | Hosted on GitHub Pages<br>
+                        For educational purposes only - Not financial advice
+                    </p>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
+        // Instrument specifications with detailed information
+        const instrumentSpecs = {
+            // Major Forex Pairs
+            'EURUSD': { 
+                pipValue: 10, 
+                marginReq: 1, 
+                category: 'forex',
+                volatility: 'Low-Medium',
+                spread: '0.5-2 pips',
+                sessions: 'European (07:00-16:00 GMT)',
+                characteristics: 'Most liquid pair, tight spreads, good for beginners'
+            },
+            'GBPUSD': { 
+                pipValue: 10, 
+                marginReq: 1, 
+                category: 'forex',
+                volatility: 'Medium',
+                spread: '0.8-3 pips',
+                sessions: 'London (08:00-17:00 GMT)',
+                characteristics: 'Cable pair, Brexit sensitive, good volatility'
+            },
+            'USDJPY': { 
+                pipValue: 9.15, 
+                marginReq: 1, 
+                category: 'forex',
+                volatility: 'Low-Medium',
+                spread: '0.5-2 pips',
+                sessions: 'Tokyo (00:00-09:00 GMT)',
+                characteristics: 'Safe haven pair, consistent trends'
+            },
+            'AUDUSD': { 
+                pipValue: 10, 
+                marginReq: 1, 
+                category: 'forex',
+                volatility: 'Medium',
+                spread: '0.8-3 pips',
+                sessions: 'Sydney (21:00-06:00 GMT)',
+                characteristics: 'Commodity currency, China sensitive'
+            },
+            'USDCAD': { 
+                pipValue: 7.5, 
+                marginReq: 1, 
+                category: 'forex',
+                volatility: 'Medium',
+                spread: '1-4 pips',
+                sessions: 'American (13:00-22:00 GMT)',
+                characteristics: 'Loonie, oil price correlation'
+            },
+            'USDCHF': { 
+                pipValue: 10.8, 
+                marginReq: 1, 
+                category: 'forex',
+                volatility: 'Low-Medium',
+                spread: '1-4 pips',
+                sessions: 'European (07:00-16:00 GMT)',
+                characteristics: 'Swissie, safe haven, low volatility'
+            },
+            'NZDUSD': { 
+                pipValue: 10, 
+                marginReq: 1, 
+                category: 'forex',
+                volatility: 'Medium',
+                spread: '1-4 pips',
+                sessions: 'Sydney (21:00-06:00 GMT)',
+                characteristics: 'Kiwi, commodity currency, agricultural exports'
+            },
+            'EURJPY': { 
+                pipValue: 9.15, 
+                marginReq: 1, 
+                category: 'forex',
+                volatility: 'Medium-High',
+                spread: '1-4 pips',
+                sessions: 'European/Tokyo overlap',
+                characteristics: 'Cross pair, no USD, higher volatility'
+            },
+            'GBPJPY': { 
+                pipValue: 9.15, 
+                marginReq: 1, 
+                category: 'forex',
+                volatility: 'High',
+                spread: '2-6 pips',
+                sessions: 'London/Tokyo overlap',
+                characteristics: 'Dragon pair, very volatile, advanced traders only'
+            },
+            
+            // Cryptocurrencies
+            'BTCUSD': { 
+                pipValue: 100, 
+                marginReq: 0.1, 
+                category: 'crypto',
+                volatility: 'EXTREME',
+                spread: '50-200 pips',
+                sessions: '24/7 trading',
+                characteristics: 'Bitcoin, extreme volatility, regulatory sensitive, weekend trading'
+            },
+            'ETHUSD': { 
+                pipValue: 10, 
+                marginReq: 0.1, 
+                category: 'crypto',
+                volatility: 'EXTREME',
+                spread: '20-100 pips',
+                sessions: '24/7 trading',
+                characteristics: 'Ethereum, follows Bitcoin, DeFi ecosystem, high gas fees affect price'
+            },
+            
+            // Precious Metals
+            'XAUUSD': { 
+                pipValue: 100, 
+                marginReq: 0.5, 
+                category: 'metal',
+                volatility: 'High',
+                spread: '10-50 pips',
+                sessions: 'London/NY (08:00-17:00 GMT)',
+                characteristics: 'Gold, safe haven, USD inverse correlation, inflation hedge'
+            },
+            
+            // Commodities
+            'USOIL': { 
+                pipValue: 100, 
+                marginReq: 0.2, 
+                category: 'commodity',
+                volatility: 'High',
+                spread: '20-80 pips',
+                sessions: 'US hours (14:30-21:00 GMT)',
+                characteristics: 'WTI Crude, inventory reports, OPEC decisions, geopolitical events'
+            },
+            
+            // Indices
+            'US30': { 
+                pipValue: 100, 
+                marginReq: 0.5, 
+                category: 'index',
+                volatility: 'Medium-High',
+                spread: '2-15 points',
+                sessions: 'US market hours (14:30-21:00 GMT)',
+                characteristics: 'Dow Jones 30, earnings sensitive, Fed decisions, market hours only'
+            }
+        };
+
+        // Risk thresholds by instrument category
+        const riskThresholds = {
+            forex: { low: 30, medium: 50, riskPercent: 5, mediumRiskPercent: 10 },
+            crypto: { low: 15, medium: 25, riskPercent: 2, mediumRiskPercent: 4 },
+            metal: { low: 25, medium: 40, riskPercent: 3, mediumRiskPercent: 6 },
+            commodity: { low: 20, medium: 35, riskPercent: 2, mediumRiskPercent: 5 },
+            index: { low: 25, medium: 40, riskPercent: 3, mediumRiskPercent: 6 }
+        };
+
         function calculateRisk() {
             // Get input values
             const accountBalance = parseFloat(document.getElementById('accountBalance').value);
             const riskPercentage = parseFloat(document.getElementById('riskPercentage').value);
-            const currencyPair = document.getElementById('currencyPair').value;
+            const tradingInstrument = document.getElementById('tradingInstrument').value;
             const leverage = parseFloat(document.getElementById('leverage').value);
             const gridLevels = parseInt(document.getElementById('gridLevels').value);
             const marketCondition = document.getElementById('marketCondition').value;
             const avgDailyRange = parseFloat(document.getElementById('avgDailyRange').value);
             const maxDrawdown = parseFloat(document.getElementById('maxDrawdown').value);
             
-            // Currency pair specifications
-            const pairSpecs = {
-                'EURUSD': { pipValue: 10, marginReq: 1 },
-                'GBPUSD': { pipValue: 10, marginReq: 1 },
-                'USDJPY': { pipValue: 9.15, marginReq: 1 },
-                'AUDUSD': { pipValue: 10, marginReq: 1 },
-                'USDCAD': { pipValue: 7.5, marginReq: 1 },
-                'USDCHF': { pipValue: 10.8, marginReq: 1 },
-                'NZDUSD': { pipValue: 10, marginReq: 1 },
-                'EURJPY': { pipValue: 9.15, marginReq: 1 },
-                'GBPJPY': { pipValue: 9.15, marginReq: 1 }
-            };
-            
-            const spec = pairSpecs[currencyPair];
+            const spec = instrumentSpecs[tradingInstrument];
             const maxRiskAmount = accountBalance * (riskPercentage / 100);
             
-            // Calculate grid size based on market condition and daily range
+            // Adjust calculations based on instrument category
+            const instrumentCategory = spec.category;
+            let volatilityMultiplier = 1;
+            let riskMultiplier = 1;
+            
+            switch(instrumentCategory) {
+                case 'crypto':
+                    volatilityMultiplier = 3; // Crypto is much more volatile
+                    riskMultiplier = 2; // Higher risk, smaller position sizes
+                    break;
+                case 'metal':
+                    volatilityMultiplier = 1.5; // Gold is more volatile than forex
+                    riskMultiplier = 1.2;
+                    break;
+                case 'commodity':
+                    volatilityMultiplier = 2; // Oil is volatile
+                    riskMultiplier = 1.5;
+                    break;
+                case 'index':
+                    volatilityMultiplier = 1.8; // Indices can be volatile
+                    riskMultiplier = 1.3;
+                    break;
+                default: // forex
+                    volatilityMultiplier = 1;
+                    riskMultiplier = 1;
+            }
+            
+            // Calculate grid size based on market condition, daily range, and instrument type
             let gridSizeMultiplier;
             switch(marketCondition) {
                 case 'ranging':
-                    gridSizeMultiplier = 0.15; // 15% of daily range
+                    gridSizeMultiplier = 0.15 * volatilityMultiplier;
                     break;
                 case 'trending':
-                    gridSizeMultiplier = 0.25; // 25% of daily range
+                    gridSizeMultiplier = 0.25 * volatilityMultiplier;
                     break;
                 case 'volatile':
-                    gridSizeMultiplier = 0.35; // 35% of daily range
+                    gridSizeMultiplier = 0.35 * volatilityMultiplier;
                     break;
             }
             
@@ -436,60 +702,105 @@
             const gridSizePoints = gridSizePips * 10; // Convert to points
             const totalRangePips = gridSizePips * gridLevels * 2; // Both directions
             
-            // Calculate lot sizes
-            const riskPerLevel = maxRiskAmount / (gridLevels * 2); // Risk per level
-            const baseLotSize = Math.min(0.1, Math.round((riskPerLevel / (gridSizePips * spec.pipValue)) * 100) / 100);
+            // Calculate lot sizes (adjusted for instrument risk)
+            const adjustedRiskPerLevel = (maxRiskAmount / riskMultiplier) / (gridLevels * 2);
+            const baseLotSize = Math.min(0.1, Math.round((adjustedRiskPerLevel / (gridSizePips * spec.pipValue)) * 100) / 100);
             
-            // Progressive lot calculation
-            let lotMultiplier = 1.0;
-            if (marketCondition === 'trending') {
-                lotMultiplier = 1.1;
-            } else if (marketCondition === 'volatile') {
-                lotMultiplier = 1.05;
+            // Ensure minimum lot size for different instruments
+            let minLotSize, maxLotLimit;
+            switch(instrumentCategory) {
+                case 'crypto':
+                    minLotSize = 0.01;
+                    maxLotLimit = 0.05; // Much lower max for crypto due to extreme volatility
+                    break;
+                case 'metal':
+                case 'commodity':
+                case 'index':
+                    minLotSize = 0.01;
+                    maxLotLimit = 0.1;
+                    break;
+                default: // forex
+                    minLotSize = 0.01;
+                    maxLotLimit = 1.0;
             }
             
-            const maxLotSize = Math.min(1.0, baseLotSize * Math.pow(lotMultiplier, gridLevels - 1));
+            const finalBaseLotSize = Math.max(minLotSize, Math.min(maxLotLimit, baseLotSize));
+            
+            // Progressive lot calculation (more conservative for volatile instruments)
+            let lotMultiplier = 1.0;
+            if (marketCondition === 'trending') {
+                lotMultiplier = instrumentCategory === 'crypto' ? 1.02 : (instrumentCategory === 'forex' ? 1.1 : 1.05);
+            } else if (marketCondition === 'volatile') {
+                lotMultiplier = instrumentCategory === 'crypto' ? 1.01 : (instrumentCategory === 'forex' ? 1.05 : 1.02);
+            }
+            
+            const maxLotSize = Math.min(maxLotLimit, finalBaseLotSize * Math.pow(lotMultiplier, gridLevels - 1));
             
             // Calculate maximum exposure
             let totalLots = 0;
             for (let i = 0; i < gridLevels; i++) {
-                totalLots += baseLotSize * Math.pow(lotMultiplier, i);
+                totalLots += finalBaseLotSize * Math.pow(lotMultiplier, i);
             }
             totalLots *= 2; // Both buy and sell sides
             
-            const maxPositionsValue = totalLots * 100000; // Standard lot size
-            const requiredMargin = maxPositionsValue / leverage;
+            // Different contract sizes and approximate prices for different instruments
+            let contractSize, approximatePrice;
+            switch(instrumentCategory) {
+                case 'crypto':
+                    contractSize = 1;
+                    approximatePrice = tradingInstrument === 'BTCUSD' ? 50000 : 3000;
+                    break;
+                case 'metal':
+                    contractSize = 100; // 100 oz
+                    approximatePrice = 2000; // Gold price
+                    break;
+                case 'commodity':
+                    contractSize = 1000; // 1000 barrels
+                    approximatePrice = 80; // Oil price
+                    break;
+                case 'index':
+                    contractSize = 1;
+                    approximatePrice = 35000; // US30 value
+                    break;
+                default: // forex
+                    contractSize = 100000;
+                    approximatePrice = 1; // Base currency
+            }
+            
+            const maxPositionsValue = totalLots * contractSize * (instrumentCategory === 'forex' ? approximatePrice : approximatePrice);
+            const requiredMargin = maxPositionsValue * spec.marginReq / leverage;
             const freeMargin = accountBalance - requiredMargin;
             
-            // EA Settings recommendations
+            // EA Settings recommendations (adjusted for instrument type)
             let reversalBuffer, resetThreshold, profitTarget;
             
             switch(marketCondition) {
                 case 'ranging':
-                    reversalBuffer = 4;
-                    resetThreshold = 6;
-                    profitTarget = 1.5;
+                    reversalBuffer = instrumentCategory === 'crypto' ? 2 : (instrumentCategory === 'forex' ? 4 : 3);
+                    resetThreshold = instrumentCategory === 'crypto' ? 3 : (instrumentCategory === 'forex' ? 6 : 4);
+                    profitTarget = instrumentCategory === 'crypto' ? 3.0 : (instrumentCategory === 'forex' ? 1.5 : 2.0);
                     break;
                 case 'trending':
-                    reversalBuffer = 2;
-                    resetThreshold = 3;
-                    profitTarget = 2.5;
+                    reversalBuffer = instrumentCategory === 'crypto' ? 1 : (instrumentCategory === 'forex' ? 2 : 2);
+                    resetThreshold = instrumentCategory === 'crypto' ? 2 : (instrumentCategory === 'forex' ? 3 : 3);
+                    profitTarget = instrumentCategory === 'crypto' ? 4.0 : (instrumentCategory === 'forex' ? 2.5 : 3.0);
                     break;
                 case 'volatile':
-                    reversalBuffer = 3;
-                    resetThreshold = 4;
-                    profitTarget = 3.0;
+                    reversalBuffer = instrumentCategory === 'crypto' ? 1 : (instrumentCategory === 'forex' ? 3 : 2);
+                    resetThreshold = instrumentCategory === 'crypto' ? 2 : (instrumentCategory === 'forex' ? 4 : 3);
+                    profitTarget = instrumentCategory === 'crypto' ? 5.0 : (instrumentCategory === 'forex' ? 3.0 : 4.0);
                     break;
             }
             
-            // Risk assessment
-            let riskLevel, riskClass;
+            // Risk assessment (adjusted for instrument volatility)
             const marginUsagePercent = (requiredMargin / accountBalance) * 100;
+            const thresholds = riskThresholds[instrumentCategory];
             
-            if (marginUsagePercent < 30 && riskPercentage < 5) {
+            let riskLevel, riskClass;
+            if (marginUsagePercent < thresholds.low && riskPercentage < thresholds.riskPercent) {
                 riskLevel = "LOW RISK";
                 riskClass = "risk-low";
-            } else if (marginUsagePercent < 50 && riskPercentage < 10) {
+            } else if (marginUsagePercent < thresholds.medium && riskPercentage < thresholds.mediumRiskPercent) {
                 riskLevel = "MEDIUM RISK";
                 riskClass = "risk-medium";
             } else {
@@ -497,14 +808,21 @@
                 riskClass = "risk-high";
             }
             
+            // Add instrument-specific risk warning
+            if (instrumentCategory === 'crypto') {
+                riskLevel += " (CRYPTO - EXTREME VOLATILITY)";
+            } else if (instrumentCategory !== 'forex') {
+                riskLevel += ` (${instrumentCategory.toUpperCase()} - HIGHER VOLATILITY)`;
+            }
+            
             // Update results
-            document.getElementById('baseLotSize').textContent = baseLotSize.toFixed(2);
+            document.getElementById('baseLotSize').textContent = finalBaseLotSize.toFixed(2);
             document.getElementById('maxLotSize').textContent = maxLotSize.toFixed(2);
             document.getElementById('lotMultiplier').textContent = lotMultiplier.toFixed(2);
             
-            document.getElementById('gridSize').textContent = `${gridSizePips} pips`;
+            document.getElementById('gridSize').textContent = `${gridSizePips} ${instrumentCategory === 'forex' ? 'pips' : 'points'}`;
             document.getElementById('gridSizePoints').textContent = gridSizePoints;
-            document.getElementById('totalRange').textContent = `${totalRangePips} pips`;
+            document.getElementById('totalRange').textContent = `${totalRangePips} ${instrumentCategory === 'forex' ? 'pips' : 'points'}`;
             
             document.getElementById('maxRiskAmount').textContent = `$${maxRiskAmount.toFixed(2)}`;
             document.getElementById('maxPositionsValue').textContent = `$${maxPositionsValue.toLocaleString()}`;
@@ -518,31 +836,112 @@
             const riskIndicator = document.getElementById('riskLevel');
             riskIndicator.textContent = `${riskLevel} - Margin Usage: ${marginUsagePercent.toFixed(1)}%`;
             riskIndicator.className = `risk-indicator ${riskClass}`;
+            
+            // Update warnings based on instrument
+            updateRiskWarnings(instrumentCategory);
+            
+            // Track calculation
+            trackCalculation();
         }
         
-        // Calculate on page load
-        window.onload = function() {
-            calculateRisk();
+        function updateInstrumentInfo() {
+            const instrument = document.getElementById('tradingInstrument').value;
+            const spec = instrumentSpecs[instrument];
+            const infoDiv = document.getElementById('instrumentInfo');
             
-            // Initialize GitHub Pages optimizations
-            initGitHubPages();
-            
-            // Track page load (add your analytics code here)
-            if (typeof gtag !== 'undefined') {
-                gtag('event', 'page_view', {
-                    page_title: 'Grid Risk Calculator',
-                    page_location: window.location.href,
-                    custom_map: {'dimension1': 'github_pages'}
-                });
+            let className = 'instrument-info';
+            if (spec.category === 'crypto') {
+                className += ' crypto-warning';
             }
+            
+            infoDiv.className = className;
+            infoDiv.innerHTML = `
+                <strong>${instrument}</strong> - ${spec.characteristics}<br>
+                <strong>Volatility:</strong> ${spec.volatility} | 
+                <strong>Spread:</strong> ${spec.spread} | 
+                <strong>Best Sessions:</strong> ${spec.sessions}
+            `;
+            
+            // Update daily range placeholder based on instrument
+            const avgDailyRange = document.getElementById('avgDailyRange');
+            switch(spec.category) {
+                case 'crypto':
+                    avgDailyRange.value = instrument === 'BTCUSD' ? 2000 : 800;
+                    avgDailyRange.placeholder = 'Crypto: 500-5000 points';
+                    break;
+                case 'metal':
+                    avgDailyRange.value = 300;
+                    avgDailyRange.placeholder = 'Gold: 200-800 points';
+                    break;
+                case 'commodity':
+                    avgDailyRange.value = 400;
+                    avgDailyRange.placeholder = 'Oil: 200-1000 points';
+                    break;
+                case 'index':
+                    avgDailyRange.value = 250;
+                    avgDailyRange.placeholder = 'Index: 100-500 points';
+                    break;
+                default: // forex
+                    avgDailyRange.value = 100;
+                    avgDailyRange.placeholder = 'Forex: 50-300 pips';
+            }
+        }
+        
+        function updateRiskWarnings(category) {
+            const warningsContainer = document.getElementById('riskWarnings');
+            let warnings = [
+                'Grid trading can result in significant losses during strong trending markets',
+                'Never risk more than you can afford to lose',
+                'Test thoroughly on demo accounts before live trading',
+                'Monitor margin levels closely to avoid margin calls'
+            ];
+            
+            switch(category) {
+                case 'crypto':
+                    warnings.unshift('<strong>CRYPTO EXTREME RISK:</strong> 24/7 trading with potential 20-50% daily moves');
+                    warnings.push('<strong>Crypto-specific risks:</strong> Flash crashes, exchange outages, regulatory news');
+                    warnings.push('<strong>Weekend trading:</strong> Unlike forex, crypto markets never close');
+                    break;
+                case 'metal':
+                    warnings.push('<strong>Gold-specific risks:</strong> Fed announcements and USD strength major drivers');
+                    warnings.push('<strong>Safe haven flows:</strong> Can spike during market stress');
+                    break;
+                case 'commodity':
+                    warnings.push('<strong>Commodity risks:</strong> Inventory reports, OPEC decisions, geopolitical events');
+                    warnings.push('<strong>Storage costs:</strong> Contango/backwardation affects pricing');
+                    break;
+                case 'index':
+                    warnings.push('<strong>Index risks:</strong> Earnings seasons, Fed decisions, market gaps');
+                    warnings.push('<strong>Market hours only:</strong> No weekend trading, Monday gap risk');
+                    break;
+            }
+            
+            warningsContainer.innerHTML = warnings.map(warning => `<li>${warning}</li>`).join('');
+        }
+        
+        // Initialize on page load
+        window.onload = function() {
+            updateInstrumentInfo();
+            calculateRisk();
+            initGitHubPages();
         };
+        
+        // Update info when instrument changes
+        document.getElementById('tradingInstrument').addEventListener('change', function() {
+            updateInstrumentInfo();
+            calculateRisk();
+        });
+        
+        // Auto-recalculate on input changes
+        ['accountBalance', 'riskPercentage', 'leverage', 'gridLevels', 'marketCondition', 'avgDailyRange', 'maxDrawdown'].forEach(id => {
+            document.getElementById(id).addEventListener('input', calculateRisk);
+        });
         
         // GitHub Pages specific optimizations
         function initGitHubPages() {
             // Update GitHub link with actual username if available
             const githubLinks = document.querySelectorAll('a[href*="github.com/yourusername"]');
             githubLinks.forEach(link => {
-                // Auto-detect GitHub username from URL if possible
                 const currentUrl = window.location.href;
                 const githubMatch = currentUrl.match(/https:\/\/([^.]+)\.github\.io/);
                 if (githubMatch) {
@@ -550,39 +949,23 @@
                     link.href = link.href.replace('yourusername', username);
                 }
             });
-            
-            // Add GitHub Pages performance optimization
-            if ('serviceWorker' in navigator) {
-                // Optional: Add service worker for better caching
-                console.log('Service worker supported - can be added for caching');
-            }
         }
         
-        // Add analytics tracking for calculations
+        // Analytics tracking
         function trackCalculation() {
             if (typeof gtag !== 'undefined') {
                 gtag('event', 'calculate_risk', {
                     event_category: 'calculator',
-                    event_label: 'risk_calculation',
-                    custom_map: {'dimension2': 'github_pages_user'}
+                    event_label: 'multi_asset_calculation',
+                    custom_map: {'dimension1': 'github_pages_v2'}
                 });
             }
-            
-            // Track usage for GitHub insights (client-side only)
-            console.log('Calculation performed at:', new Date().toISOString());
+            console.log('Multi-asset calculation performed at:', new Date().toISOString());
         }
         
-        // Update calculate function to include tracking
-        const originalCalculateRisk = calculateRisk;
-        calculateRisk = function() {
-            originalCalculateRisk();
-            trackCalculation();
-        };
-        
-        // GitHub Pages specific error handling
+        // Error handling
         window.addEventListener('error', function(e) {
             console.warn('GitHub Pages deployment - Error logged:', e.message);
-            // Optionally track errors if analytics is set up
             if (typeof gtag !== 'undefined') {
                 gtag('event', 'exception', {
                     description: e.message,
@@ -601,13 +984,11 @@
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
         gtag('config', 'YOUR_GA_ID', {
-            // GitHub Pages specific configuration
-            page_title: 'Grid Risk Calculator',
+            page_title: 'Multi-Asset Grid Risk Calculator',
             page_location: window.location.href,
-            custom_map: {'dimension1': 'github_pages'}
+            custom_map: {'dimension1': 'github_pages_v2'}
         });
     </script>
     -->
-    </script>
 </body>
 </html>
