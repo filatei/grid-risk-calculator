@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Grid Risk Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+        }
+        
+        .input-section {
+            padding: 40px;
+            background: #f8f9fa;
+            border-right: 1px solid #e9ecef;
+        }
+        
+        .results-section {
+            padding: 40px;
+            background: white;
+        }
+        
+        .section-title {
+            font-size: 1.8em;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #3498db;
+        }
+        
+        .input-group {
+            margin-bottom: 25px;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #34495e;
+            font-size: 1.1em;
+        }
+        
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+        
+        .input-group input:focus, .input-group select:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+        
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .calculate-btn {
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+        
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(46, 204, 113, 0.3);
+        }
+        
+        .result-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 5px solid #3498db;
+        }
+        
+        .result-card h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+        
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .result-item:last-child {
+            border-bottom: none;
+        }
+        
+        .result-label {
+            font-weight: 600;
+            color: #495057;
+        }
+        
+        .result-value {
+            font-weight: 700;
+            color: #2c3e50;
+            font-size: 1.1em;
+        }
+        
+        .risk-indicator {
+            padding: 10px 15px;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: 600;
+            margin-top: 15px;
+        }
+        
+        .risk-low {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .risk-medium {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        
+        .risk-high {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .warning-box {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+        
+        .warning-box h4 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+        
+        .warning-box ul {
+            color: #856404;
+            margin-left: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+            
+            .input-section {
+                border-right: none;
+                border-bottom: 1px solid #e9ecef;
+            }
+            
+            .input-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 Dynamic Grid Risk Calculator</h1>
+            <p>Calculate optimal parameters for your adaptive grid trading system</p>
+        </div>
+        
+        <div class="content">
+            <div class="input-section">
+                <h2 class="section-title">📊 Account & Risk Parameters</h2>
+                
+                <div class="input-group">
+                    <label for="accountBalance">Account Balance ($)</label>
+                    <input type="number" id="accountBalance" value="10000" min="100" step="100">
+                </div>
+                
+                <div class="input-group">
+                    <label for="riskPercentage">Maximum Risk per Grid Session (%)</label>
+                    <input type="number" id="riskPercentage" value="5" min="1" max="20" step="0.5">
+                </div>
+                
+                <div class="input-row">
+                    <div class="input-group">
+                        <label for="currencyPair">Currency Pair</label>
+                        <select id="currencyPair">
+                            <option value="EURUSD">EUR/USD</option>
+                            <option value="GBPUSD">GBP/USD</option>
+                            <option value="USDJPY">USD/JPY</option>
+                            <option value="AUDUSD">AUD/USD</option>
+                            <option value="USDCAD">USD/CAD</option>
+                            <option value="USDCHF">USD/CHF</option>
+                            <option value="NZDUSD">NZD/USD</option>
+                            <option value="EURJPY">EUR/JPY</option>
+                            <option value="GBPJPY">GBP/JPY</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="leverage">Account Leverage</label>
+                        <select id="leverage">
+                            <option value="30">1:30</option>
+                            <option value="50">1:50</option>
+                            <option value="100" selected>1:100</option>
+                            <option value="200">1:200</option>
+                            <option value="500">1:500</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <h2 class="section-title">⚙️ Grid Configuration</h2>
+                
+                <div class="input-row">
+                    <div class="input-group">
+                        <label for="gridLevels">Number of Grid Levels</label>
+                        <input type="number" id="gridLevels" value="5" min="3" max="10" step="1">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="marketCondition">Market Condition</label>
+                        <select id="marketCondition">
+                            <option value="ranging">Ranging/Sideways</option>
+                            <option value="trending" selected>Trending</option>
+                            <option value="volatile">High Volatility</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="avgDailyRange">Average Daily Range (pips)</label>
+                    <input type="number" id="avgDailyRange" value="100" min="50" max="300" step="10">
+                </div>
+                
+                <div class="input-group">
+                    <label for="maxDrawdown">Maximum Acceptable Drawdown (%)</label>
+                    <input type="number" id="maxDrawdown" value="10" min="5" max="25" step="1">
+                </div>
+                
+                <button class="calculate-btn" onclick="calculateRisk()">🔄 Calculate Optimal Settings</button>
+            </div>
+            
+            <div class="results-section">
+                <h2 class="section-title">📋 Calculated Results</h2>
+                
+                <div class="result-card">
+                    <h3>💰 Lot Size Recommendations</h3>
+                    <div class="result-item">
+                        <span class="result-label">Base Lot Size:</span>
+                        <span class="result-value" id="baseLotSize">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Maximum Lot Size:</span>
+                        <span class="result-value" id="maxLotSize">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Progressive Multiplier:</span>
+                        <span class="result-value" id="lotMultiplier">-</span>
+                    </div>
+                </div>
+                
+                <div class="result-card">
+                    <h3>📏 Grid Spacing</h3>
+                    <div class="result-item">
+                        <span class="result-label">Recommended Grid Size:</span>
+                        <span class="result-value" id="gridSize">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Grid Size (Points):</span>
+                        <span class="result-value" id="gridSizePoints">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Total Grid Range:</span>
+                        <span class="result-value" id="totalRange">-</span>
+                    </div>
+                </div>
+                
+                <div class="result-card">
+                    <h3>💸 Risk Analysis</h3>
+                    <div class="result-item">
+                        <span class="result-label">Maximum Risk Amount:</span>
+                        <span class="result-value" id="maxRiskAmount">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Max Positions Value:</span>
+                        <span class="result-value" id="maxPositionsValue">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Required Margin:</span>
+                        <span class="result-value" id="requiredMargin">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Free Margin Remaining:</span>
+                        <span class="result-value" id="freeMargin">-</span>
+                    </div>
+                </div>
+                
+                <div class="result-card">
+                    <h3>⚡ Recommended EA Settings</h3>
+                    <div class="result-item">
+                        <span class="result-label">Reversal Buffer:</span>
+                        <span class="result-value" id="reversalBuffer">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Reset Threshold:</span>
+                        <span class="result-value" id="resetThreshold">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Profit Target:</span>
+                        <span class="result-value" id="profitTarget">-</span>
+                    </div>
+                </div>
+                
+                <div id="riskLevel" class="risk-indicator">
+                    Click Calculate to see risk assessment
+                </div>
+                
+                <div class="warning-box">
+                    <h4>⚠️ Important Risk Warnings:</h4>
+                    <ul>
+                        <li>Grid trading can result in significant losses during strong trending markets</li>
+                        <li>Never risk more than you can afford to lose</li>
+                        <li>Test thoroughly on demo accounts before live trading</li>
+                        <li>Consider market volatility and news events</li>
+                        <li>Monitor margin levels closely to avoid margin calls</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calculateRisk() {
+            // Get input values
+            const accountBalance = parseFloat(document.getElementById('accountBalance').value);
+            const riskPercentage = parseFloat(document.getElementById('riskPercentage').value);
+            const currencyPair = document.getElementById('currencyPair').value;
+            const leverage = parseFloat(document.getElementById('leverage').value);
+            const gridLevels = parseInt(document.getElementById('gridLevels').value);
+            const marketCondition = document.getElementById('marketCondition').value;
+            const avgDailyRange = parseFloat(document.getElementById('avgDailyRange').value);
+            const maxDrawdown = parseFloat(document.getElementById('maxDrawdown').value);
+            
+            // Currency pair specifications
+            const pairSpecs = {
+                'EURUSD': { pipValue: 10, marginReq: 1 },
+                'GBPUSD': { pipValue: 10, marginReq: 1 },
+                'USDJPY': { pipValue: 9.15, marginReq: 1 },
+                'AUDUSD': { pipValue: 10, marginReq: 1 },
+                'USDCAD': { pipValue: 7.5, marginReq: 1 },
+                'USDCHF': { pipValue: 10.8, marginReq: 1 },
+                'NZDUSD': { pipValue: 10, marginReq: 1 },
+                'EURJPY': { pipValue: 9.15, marginReq: 1 },
+                'GBPJPY': { pipValue: 9.15, marginReq: 1 }
+            };
+            
+            const spec = pairSpecs[currencyPair];
+            const maxRiskAmount = accountBalance * (riskPercentage / 100);
+            
+            // Calculate grid size based on market condition and daily range
+            let gridSizeMultiplier;
+            switch(marketCondition) {
+                case 'ranging':
+                    gridSizeMultiplier = 0.15; // 15% of daily range
+                    break;
+                case 'trending':
+                    gridSizeMultiplier = 0.25; // 25% of daily range
+                    break;
+                case 'volatile':
+                    gridSizeMultiplier = 0.35; // 35% of daily range
+                    break;
+            }
+            
+            const gridSizePips = Math.round(avgDailyRange * gridSizeMultiplier);
+            const gridSizePoints = gridSizePips * 10; // Convert to points
+            const totalRangePips = gridSizePips * gridLevels * 2; // Both directions
+            
+            // Calculate lot sizes
+            const riskPerLevel = maxRiskAmount / (gridLevels * 2); // Risk per level
+            const baseLotSize = Math.min(0.1, Math.round((riskPerLevel / (gridSizePips * spec.pipValue)) * 100) / 100);
+            
+            // Progressive lot calculation
+            let lotMultiplier = 1.0;
+            if (marketCondition === 'trending') {
+                lotMultiplier = 1.1;
+            } else if (marketCondition === 'volatile') {
+                lotMultiplier = 1.05;
+            }
+            
+            const maxLotSize = Math.min(1.0, baseLotSize * Math.pow(lotMultiplier, gridLevels - 1));
+            
+            // Calculate maximum exposure
+            let totalLots = 0;
+            for (let i = 0; i < gridLevels; i++) {
+                totalLots += baseLotSize * Math.pow(lotMultiplier, i);
+            }
+            totalLots *= 2; // Both buy and sell sides
+            
+            const maxPositionsValue = totalLots * 100000; // Standard lot size
+            const requiredMargin = maxPositionsValue / leverage;
+            const freeMargin = accountBalance - requiredMargin;
+            
+            // EA Settings recommendations
+            let reversalBuffer, resetThreshold, profitTarget;
+            
+            switch(marketCondition) {
+                case 'ranging':
+                    reversalBuffer = 4;
+                    resetThreshold = 6;
+                    profitTarget = 1.5;
+                    break;
+                case 'trending':
+                    reversalBuffer = 2;
+                    resetThreshold = 3;
+                    profitTarget = 2.5;
+                    break;
+                case 'volatile':
+                    reversalBuffer = 3;
+                    resetThreshold = 4;
+                    profitTarget = 3.0;
+                    break;
+            }
+            
+            // Risk assessment
+            let riskLevel, riskClass;
+            const marginUsagePercent = (requiredMargin / accountBalance) * 100;
+            
+            if (marginUsagePercent < 30 && riskPercentage < 5) {
+                riskLevel = "LOW RISK";
+                riskClass = "risk-low";
+            } else if (marginUsagePercent < 50 && riskPercentage < 10) {
+                riskLevel = "MEDIUM RISK";
+                riskClass = "risk-medium";
+            } else {
+                riskLevel = "HIGH RISK";
+                riskClass = "risk-high";
+            }
+            
+            // Update results
+            document.getElementById('baseLotSize').textContent = baseLotSize.toFixed(2);
+            document.getElementById('maxLotSize').textContent = maxLotSize.toFixed(2);
+            document.getElementById('lotMultiplier').textContent = lotMultiplier.toFixed(2);
+            
+            document.getElementById('gridSize').textContent = `${gridSizePips} pips`;
+            document.getElementById('gridSizePoints').textContent = gridSizePoints;
+            document.getElementById('totalRange').textContent = `${totalRangePips} pips`;
+            
+            document.getElementById('maxRiskAmount').textContent = `$${maxRiskAmount.toFixed(2)}`;
+            document.getElementById('maxPositionsValue').textContent = `$${maxPositionsValue.toLocaleString()}`;
+            document.getElementById('requiredMargin').textContent = `$${requiredMargin.toFixed(2)}`;
+            document.getElementById('freeMargin').textContent = `$${freeMargin.toFixed(2)}`;
+            
+            document.getElementById('reversalBuffer').textContent = reversalBuffer;
+            document.getElementById('resetThreshold').textContent = resetThreshold;
+            document.getElementById('profitTarget').textContent = `${profitTarget}%`;
+            
+            const riskIndicator = document.getElementById('riskLevel');
+            riskIndicator.textContent = `${riskLevel} - Margin Usage: ${marginUsagePercent.toFixed(1)}%`;
+            riskIndicator.className = `risk-indicator ${riskClass}`;
+        }
+        
+        // Calculate on page load
+        window.onload = function() {
+            calculateRisk();
+            
+            // Track page load (add your analytics code here)
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'page_view', {
+                    page_title: 'Grid Risk Calculator',
+                    page_location: window.location.href
+                });
+            }
+        };
+        
+        // Add analytics tracking for calculations
+        function trackCalculation() {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'calculate_risk', {
+                    event_category: 'calculator',
+                    event_label: 'risk_calculation'
+                });
+            }
+        }
+        
+        // Update calculate function to include tracking
+        const originalCalculateRisk = calculateRisk;
+        calculateRisk = function() {
+            originalCalculateRisk();
+            trackCalculation();
+        };
+    </script>
+    
+    <!-- Google Analytics (replace GA_MEASUREMENT_ID with your actual ID) -->
+    <!-- 
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'GA_MEASUREMENT_ID');
+    </script>
+    -->
+    </script>
+</body>
+</html>
